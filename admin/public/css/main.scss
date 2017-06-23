@@ -1,0 +1,12 @@
+@import 'colors';
+@import 'box-model';
+
+
+.header {
+	@extend .background-blue-1;
+	@extend .padding-1-0;
+	@extend .color-white;
+}
+#main{
+	
+}

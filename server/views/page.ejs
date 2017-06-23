@@ -1,0 +1,21 @@
+<html>
+    <head>
+           <link rel="stylesheet" href="/css.css">
+           <% if (data) {%>
+              <title><%= data.title%></title>
+            <% } %>
+    </head>
+    <body>
+       <header>
+
+
+       </header>
+       <main id="main">
+       <% if (data) {%>
+<%= data.title %>
+  <%= data.description %>
+  <%- data.textarea%>
+<% } %>
+
+    </body>
+</html>

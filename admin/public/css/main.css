@@ -1,0 +1,22 @@
+.color-red {
+  color: #E74C3C; }
+
+.color-blue-1 {
+  color: #2C3E50; }
+
+.color-blue-2 {
+  color: #2980B9; }
+
+.color-blue-3 {
+  color: #3498DB; }
+
+.color-white, .header {
+  color: #ECF0F1; }
+
+.background-blue-1, .header {
+  background: #2C3E50; }
+
+.padding-1-0, .header {
+  padding: 1rem 0; }
+
+/*# sourceMappingURL=main.css.map */

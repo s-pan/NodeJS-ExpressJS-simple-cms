@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAMA,UAAU;EACT,KAAK,EAPM,OAAO;;AAUnB,aAAc;EACb,KAAK,EAVS,OAAO;;AAatB,aAAc;EACb,KAAK,EAZS,OAAO;;AAetB,aAAc;EACb,KAAK,EAfS,OAAO;;AAkBtB,qBAAa;EACZ,KAAK,EArBQ,OAAO;;AAwBrB,2BAAkB;EACjB,UAAU,EA1BI,OAAO;;ACDtB,qBAAa;EACV,OAAO,EAAC,MAAM",
+"sources": ["colors.scss","box-model.scss"],
+"names": [],
+"file": "main.css"
+}

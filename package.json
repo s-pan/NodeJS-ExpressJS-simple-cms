@@ -1,0 +1,22 @@
+{
+  "name": "express-app",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "author": "Svet",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cheerio": "latest",
+    "express": "^4.14.0",
+    "express-handlebars": "3.0.0",
+    "jquery": "^3.2.1",
+    "mongodb": "2.2.11",
+    "mongoose": "4.7.0",
+    "multer": "^1.3.0",
+    "slug": "^0.9.1"
+  },
+  "devDependencies": {
+    "express-fileupload": "^0.1.2"
+  }
+}

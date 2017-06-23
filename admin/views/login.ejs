@@ -1,0 +1,35 @@
+<html>
+ <body>
+    <%- include head.ejs%>
+     <header>
+      <div class="header">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <h3><a href="/admin" class="color-white">Admin interface</a></h3>
+            </div>
+          </div>
+        </div> 
+      </div>       
+  </header>
+    <main id="main" class="container">
+
+    <form action="/admin/login" method="post" id="login-form">
+        <div class="form-group">
+            <label for="title">usernama</label>
+            <input type="text" name="username" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" class="form-control">
+        </div>
+       <% if (errorMessage) { %>
+             <span><%= errorMessage %></span>
+         <% } %>
+       <div class="form-group">
+          <input type="submit" class="btn btn-lg btn-danger" value="Login">
+        </div>
+    </form>
+</main>
+  </body>
+</html>

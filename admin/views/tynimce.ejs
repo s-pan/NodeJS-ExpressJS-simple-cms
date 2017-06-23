@@ -1,0 +1,17 @@
+ <script src='//cloud.tinymce.com/stable/tinymce.min.js'></script>
+
+
+   <script>
+  tinymce.init({
+    selector: '#tinymce',
+    plugins: ["image"],
+    file_picker_callback: function(field_name, url, type, win) {
+      if(type=='image') {
+        $('#img-t').click(function(){
+          console.log(111)
+           $('#my-form').submit()
+        })
+      }
+     }
+  });
+  </script>

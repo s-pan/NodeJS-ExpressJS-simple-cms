@@ -1,0 +1,75 @@
+<html>
+    <head>
+    </head>
+    <body>
+       <header>
+       <link rel="stylesheet" href="css.css">
+       <script src='//cloud.tinymce.com/stable/tinymce.min.js'></script>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+       <script src='https://www.google.com/recaptcha/api.js'></script>
+
+       </header>
+       <main id="main">
+          <p>Bravo</p>
+
+<a href="/create-page">Create page</a>
+
+<form id="my-form" action="/upload/" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
+<input id="img-t" name="image" type="file"></form>
+
+
+    <form action="/admin/add-page" method="post" id="my-form">
+<% if (data) { %>
+  <h2><%= data.title %></h2>
+<% } %>
+
+
+        Keywords: <input type="text" name="keywords"><br>
+        Description: <input type="text" name="description">
+        <input type="file" name="image">
+        <textarea id="tinymce" name="textarea"></textarea>
+        <!--<div class="g-recaptcha" data-sitekey="6LeOsxsUAAAAAL1exdojhYgR3vPoHt-RioEB2r64"></div>-->
+         <input type="submit" value="Submit">
+    </form>
+
+
+<script>
+
+$('#ajax-btn').click(function(e){
+  $.ajax({
+  method: "POST",
+  url: "/t",
+}).done(function(msg){
+  $('form').html(msg)
+})
+})
+
+</script>
+       <main>
+
+       <% if(typeof locals.img != 'undefined') { %>
+          <img src=<%= img %>>
+       <% } %>
+       
+       </main>
+
+     
+        <script>
+  tinymce.init({
+    selector: '#tinymce',
+    plugins: ["image"],
+    file_picker_callback: function(field_name, url, type, win) {
+      if(type=='image') {
+        $('#img-t').click(function(){
+          console.log(111)
+           $('#my-form').submit()
+        })
+      }
+     }
+  });
+  </script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<html>
+    <head>
+    </head>
+    <body>
+       <header>
+       <link rel="stylesheet" href="css.css">
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+       <script src='https://www.google.com/recaptcha/api.js'></script>
+
+       </header>
+       <main id="main">
+       <% if (data) {%>
+            <% data.forEach(function(page){ %>
+                <a href=<%=page.slug%>><%= page.title %></a>
+            <% }) %>
+        <% } %>
+
+        
+               </main>
+
+    </body>
+</html>
