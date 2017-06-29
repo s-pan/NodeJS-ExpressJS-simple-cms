@@ -1,10 +1,11 @@
 
-let adminUser = require('../../config/schema').adminUsers;
+let adminUser = require('../config/schema').adminUsers;
 
 function authenticate (req, res){
 	let user = req.body;
 	let message = 'Username or password not valid';
-    		
+
+   		
 	let aUser = adminUser.findOne({username: user.username});
 		aUser.then(function(admUser){
 		 if(!admUser){

@@ -74,7 +74,6 @@ function deletePage(slug){
       if(err){
           return reject(err)
       }
-
       return resolve(data)
     })
   })

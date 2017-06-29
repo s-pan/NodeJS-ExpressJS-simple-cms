@@ -1,6 +1,6 @@
 let passport = require('passport'), 
     LocalPassport = require('passport-local'),
-    adminUser = require('../../config/schema').adminUsers;
+    adminUser = require('../config/schema').adminUsers;
 
 
 module.exports = () => {
@@ -19,7 +19,6 @@ module.exports = () => {
   }))
 
   passport.serializeUser((user, done) => {
-    console.log(user._id)
     if (user) return done(null, user._id)
   })
 

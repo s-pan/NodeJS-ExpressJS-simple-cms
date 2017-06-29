@@ -1,5 +1,6 @@
 <html>
-  <%- include head.ejs%>
+  <head><%- include head.ejs%></head>
+  <body>
   <%- include header.ejs %>
   
   <main id="main" class="container">
@@ -13,7 +14,9 @@
                   <a href=<%= 'edit/' + page.slug %>><%= page.title %></a>
                 </div>
                 <div class="col-md-6 col-lg-6">
-                  <button class="btn btn-inverse delete-button" data-del=<%= page.slug %>>Delete</button>
+                  <form action=<%='/admin/delete-page/' + page.slug %> method="post" id="delete-form">
+                  <input type="submit" class="btn btn-inverse" value="Delete">
+                  </form>
                 </div>
               </div>
             <% }) %>

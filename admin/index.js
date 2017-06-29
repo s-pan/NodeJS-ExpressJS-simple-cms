@@ -1,22 +1,22 @@
-var express = require('express');
-var fs = require('fs');
-var path = require("path");
-var request = require('request');
-var cheerio = require('cheerio');
-var app = express();
-var bodyParser = require('body-parser');
-var controller = require('./controllers');
+let express = require('express');
+let fs = require('fs');
+let path = require("path");
+let request = require('request');
+let cheerio = require('cheerio');
+let app = express();
+let bodyParser = require('body-parser');
+let controller = require('./controllers');
 let Pages = require('../config/schema').Page;
 let rootPath =path.join(__dirname);
-var passport = require('passport');	
+let passport = require('passport');	
 let user = require('../config/schema').adminUsers;
-var session      = require('express-session');
-var cookieParser = require('cookie-parser');
+let session      = require('express-session');
+let cookieParser = require('cookie-parser');
+let recaptcha = require('./middlewares/recaptcha');
+let auth = require('./middlewares/auth')
 
 
-require('./config/database')
-require('./config/passport')()
-var auth = require('./config/auth')
+require('./middlewares/passport')()
 
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
@@ -51,6 +51,7 @@ app.param('slug', function(req, res, next, slug){
 
 app.use(auth.isAuth)
 
+
 app.get('/', controller.pageController.getAllPages)
 
 app.get('/login', function(req, res){
@@ -59,15 +60,14 @@ app.get('/login', function(req, res){
 
 app.post('/logout', controller.adminUserController.logout)
 
-app.post('/login', controller.adminUserController.authenticate)
+app.post('/login', recaptcha.recaptcha, controller.adminUserController.authenticate)
 
-app.get('/create-page', controller.addPageController.getContent)
-app.post('/add-page', controller.addPageController.addPage)
-app.get('/edit/:slug', controller.editPageController.findPage)
+app.get('/create-page', controller.pageController.createPage)
+app.post('/add-page', controller.pageController.addPage)
+app.get('/edit/:slug', controller.pageController.findPage)
 
-app.post('/edit-page/:slug', controller.editPageController.editPage)
-app.post('/delete-page/:slug', controller.editPageController.deletePage)
-
+app.post('/edit-page/:slug', controller.pageController.editPage)
+app.post('/delete-page/:slug', controller.pageController.deletePage)
 
 
 module.exports = app
