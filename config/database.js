@@ -4,7 +4,7 @@ mongoose.Promise = global.Promise;
 
 
 function startDb(){
-	mongoose.connect('mongodb://localhost:27017/express-db?authSource=admin');
+	mongoose.connect('mongodb://<express-app>:<express123>@ds129610.mlab.com:29610/express-cms' || 'mongodb://localhost:27017/express-db?authSource=admin');
 
     let db = mongoose.connection;
 
