@@ -14,6 +14,6 @@ base.all('*', (req, res) => {
     res.end()
 })
 
-base.listen('8081')
+base.listen(process.env.PORT || 8081)
 console.log('Magic happens on port 8081');
 exports = module.exports = base;
