@@ -1,7 +1,7 @@
 Simple CMS:
 - Nodejs / Expressjs
 - MongoDB / Mongoose
-- Passport for admin login
+- Admin login with passport
 - Google recaptcha
 - Summernote
 
