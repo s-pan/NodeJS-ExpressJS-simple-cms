@@ -7,6 +7,7 @@ let app     = express();
 let bodyParser = require('body-parser');
 let Pages = require('../../config/schema').Page;
 let slug = require('slug');
+let recaptcha = require ('../config/settings').recaptcha;
 
 /* private*/
 function createSlug(title){
@@ -16,15 +17,28 @@ function createSlug(title){
 
 /****/
 
+function login (req, res){
+    let data = {
+    	errorMessage: false,
+    	recaptcha: recaptcha
+    }
+	res.render('login.ejs', {data: data})
+}
+
+function getAllPgs(req, res){
+    let findPages = Page.findAllPages();
+    findPages.then(function(pages){
+    	console.log(pages)
+         res.json(pages)
+    });
+}
+
 
 function createPage(req, res){
-
 	var categories = Page.findAllPages();
-
 	categories.then(function(data){
     	res.render('createPage.ejs', {categories: data})
 	})
-
 }
 
 function addPage(req, res){
@@ -115,5 +129,7 @@ module.exports = {
 	findPage,
 	editPage,
 	deletePage,
-	getAllPages
+	getAllPages,
+	login,
+	getAllPgs
 }	

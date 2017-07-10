@@ -1,7 +1,7 @@
-var express = require('express');
-var base = express();
-var app = require('./server/index');
-var adminApp = require('./admin/index');
+let express = require('express');
+let base = express();
+let app = require('./server/index');
+let adminApp = require('./admin/index');
 
 require('./config/database').startDb();
 

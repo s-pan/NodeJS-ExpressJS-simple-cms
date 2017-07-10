@@ -16,6 +16,7 @@ let recaptcha = require('./middlewares/recaptcha');
 let auth = require('./middlewares/auth')
 
 
+
 require('./middlewares/passport')()
 
 app.set('view engine', 'ejs')
@@ -51,23 +52,18 @@ app.param('slug', function(req, res, next, slug){
 
 app.use(auth.isAuth)
 
-
 app.get('/', controller.pageController.getAllPages)
 
-app.get('/login', function(req, res){
-	res.render('login.ejs', {errorMessage: false})
-})
+app.get('/login', controller.pageController.login)
 
 app.post('/logout', controller.adminUserController.logout)
-
 app.post('/login', recaptcha.recaptcha, controller.adminUserController.authenticate)
-
 app.get('/create-page', controller.pageController.createPage)
 app.post('/add-page', controller.pageController.addPage)
 app.get('/edit/:slug', controller.pageController.findPage)
-
 app.post('/edit-page/:slug', controller.pageController.editPage)
 app.post('/delete-page/:slug', controller.pageController.deletePage)
 
+app.get('/test-page', controller.pageController.getAllPgs)
 
 module.exports = app

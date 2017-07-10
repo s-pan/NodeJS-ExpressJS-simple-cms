@@ -1,8 +1,12 @@
 <html>
-  <head><%- include head.ejs%></head>
+  <head>
+      <%- include head.ejs%>
+      <%- include summernote.ejs %>
+  </head>
 
     <%- include header.ejs%>
-    <%- include tynimce.ejs%>
+    
+
     <main id="main" class="container">
        <form id="my-form" action="/upload/" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
          <input id="img-t" name="image" type="file">
@@ -33,7 +37,7 @@
           <input type="file" name="image">
         </div>
         <div class="form-group">
-          <textarea id="tinymce" name="textarea" class="form-control"><%= data.textarea %></textarea>
+          <textarea id="summernote" name="textarea" class="form-control"><%= data.textarea %></textarea>
           <!--<div class="g-recaptcha" data-sitekey="6LeOsxsUAAAAAL1exdojhYgR3vPoHt-RioEB2r64"></div>-->
         </div>
          <div class="form-group">
@@ -54,7 +58,7 @@ $('#ajax-btn').click(function(e){
 })
 
 </script>
-       <main>
+
 
        <% if(typeof locals.img != 'undefined') { %>
           <img src=<%= img %>>
@@ -62,23 +66,12 @@ $('#ajax-btn').click(function(e){
        
        </main>
 
+  <script>
+$(document).ready(function() {
+  $('#summernote').summernote();
+})
+</script>
      
-        <script>
-  tinymce.init({
-    selector: '#tinymce',
-    plugins: ["image"],
-    file_picker_callback: function(field_name, url, type, win) {
-      if(type=='image') {
-        $('#img-t').click(function(){
-          console.log(111)
-           $('#my-form').submit()
-        })
-      }
-     }
-  });
-  </script>
-
-
 
     </body>
 </html>
