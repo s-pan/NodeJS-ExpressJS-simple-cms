@@ -66,4 +66,6 @@ app.post('/delete-page/:slug', controller.pageController.deletePage)
 
 app.get('/test-page', controller.pageController.getAllPgs)
 
+app.get('/upload', controller.pageController.getImages)
+
 module.exports = app

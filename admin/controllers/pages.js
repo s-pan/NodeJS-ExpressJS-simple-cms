@@ -8,6 +8,11 @@ let bodyParser = require('body-parser');
 let Pages = require('../../config/schema').Page;
 let slug = require('slug');
 let recaptcha = require ('../config/settings').recaptcha;
+let path = require("path");
+
+console.log(path.join('/admin/upload'))
+
+let imagesDir = 'C:\\express-app\\admin\\upload';
 
 /* private*/
 function createSlug(title){
@@ -28,11 +33,9 @@ function login (req, res){
 function getAllPgs(req, res){
     let findPages = Page.findAllPages();
     findPages.then(function(pages){
-    	console.log(pages)
          res.json(pages)
     });
 }
-
 
 function createPage(req, res){
 	var categories = Page.findAllPages();
@@ -123,6 +126,17 @@ function getData(req, res){
     });
 }
 
+function getImages(req, res){
+	console.log(imagesDir)
+	fs.readFile(imagesDir, function(err, images){
+		if(err){
+			res.send(err)
+		} else {
+			res.send(images)
+		}
+	})
+}
+
 module.exports = {
 	createPage,
 	addPage,
@@ -131,5 +145,6 @@ module.exports = {
 	deletePage,
 	getAllPages,
 	login,
-	getAllPgs
+	getAllPgs,
+	getImages
 }	
