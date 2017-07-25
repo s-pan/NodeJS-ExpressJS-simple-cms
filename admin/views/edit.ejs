@@ -2,6 +2,7 @@
   <head>
       <%- include head.ejs%>
       <%- include summernote.ejs %>
+         <script src="/admin/bundle.js"></script>
   </head>
 
     <%- include header.ejs%>
@@ -38,8 +39,7 @@
         </div>
         <div class="form-group">
           <textarea id="summernote" name="textarea" class="form-control"><%= data.textarea %></textarea>
-          <!--<div class="g-recaptcha" data-sitekey="6LeOsxsUAAAAAL1exdojhYgR3vPoHt-RioEB2r64"></div>-->
-        </div>
+       </div>
          <div class="form-group">
           <input type="submit" class="btn btn-lg btn-danger" value="Submit">
         </div>

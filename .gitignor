@@ -1,2 +1,2 @@
-admin/config/settings.js
-admin/controllers/comp.js
+!admin/config/settings.js
+!admin/controllers/comp.js

@@ -9,10 +9,7 @@ let Pages = require('../../config/schema').Page;
 let slug = require('slug');
 let recaptcha = require ('../config/settings').recaptcha;
 let path = require("path");
-
-console.log(path.join('/admin/upload'))
-
-let imagesDir = 'C:\\express-app\\admin\\upload';
+let multer  = require('multer');
 
 /* private*/
 function createSlug(title){
@@ -21,6 +18,7 @@ function createSlug(title){
 }
 
 /****/
+
 
 function login (req, res){
     let data = {
@@ -127,14 +125,45 @@ function getData(req, res){
 }
 
 function getImages(req, res){
-	console.log(imagesDir)
-	fs.readFile(imagesDir, function(err, images){
+	let imagesPath = path.resolve(__dirname, '..', 'public/upload/')
+	fs.readdir(imagesPath, 'utf8', function(err, images){
 		if(err){
 			res.send(err)
 		} else {
-			res.send(images)
+		    function getAllImages(){
+		    	return new Promise(function(res, rej){
+				    let html = [];
+				        images.forEach(function(image){
+			 	    	let img = encodeURIComponent(image)
+			 	    	console.log(img)
+			 	        let obj = {src: img};
+				        html.push(obj)
+		            })
+		            if(err){
+                       return rej(err)
+                    }
+                    return res(html)
+                })
+		    }		
+
+		    let allImages = getAllImages();
+		    allImages.then(function(images){
+		    	res.json(images)
+		    })
 		}
 	})
+}
+
+function getDate(){
+	return new Date();
+}
+
+function uploadImage(req, res){
+	res.send('ok')  
+}
+
+function deleteImages (req, res){
+    fs.unlink(path.resolve(__dirname, '..', 'public/upload/gifts.jpg'))
 }
 
 module.exports = {
@@ -146,5 +175,6 @@ module.exports = {
 	getAllPages,
 	login,
 	getAllPgs,
-	getImages
+	getImages,
+	uploadImage
 }	

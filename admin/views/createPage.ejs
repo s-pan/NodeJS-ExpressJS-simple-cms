@@ -1,14 +1,12 @@
 <html>
   <head>
-      <%- include head.ejs %>
-      <%- include summernote.ejs %>
+    <%- include head.ejs %>
+    <%- include summernote.ejs %>
+    <script src="/admin/bundle.js"></script>
   </head>
   <body>
       <%- include header.ejs%>
        <main id="main" class="container">
-          <form id="my-form" action="/upload/" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;      height:0;overflow:hidden">
-             <input id="img-t" name="image" type="file">
-          </form>
           <form action="/admin/add-page" method="post" id="my-form">
             <div class="form-group">
                <label for="title">Title</label>
@@ -37,6 +35,17 @@
           <textarea id="summernote" name="textarea"></textarea>
           <input type="submit" value="Submit" class="btn btn-lg btn-danger">
          </form>
+
+         
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div id="file-manager" class="container">
+ 
+</div>
 <script>
 $('#ajax-btn').click(function(e){
   $.ajax({
@@ -45,6 +54,11 @@ $('#ajax-btn').click(function(e){
 }).done(function(msg){
   $('form').html(msg)
 })
+})
+
+$('.selected-image').click(function(event){
+  console.log(event)
+  console.log(222222222222)
 })
 
 </script>

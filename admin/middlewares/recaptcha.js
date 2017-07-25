@@ -9,13 +9,13 @@ module.exports= {
         	errorMessage: 'Invalid recaptcha',
         	recaptcha: recaptcha
             };
-               request(verificationUrl, function(err, response, body){
-                    body = JSON.parse(body);
-                    if(!body.success){
-                        res.render('login.ejs', {data: data})
-                    } else {
-                        next()
-                    }
-                })
+            request(verificationUrl, function(err, response, body){
+                body = JSON.parse(body);
+                if(!body.success){
+                    res.render('login.ejs', {data: data})
+                } else {
+                    next()
+                }
+            })
     }
 }

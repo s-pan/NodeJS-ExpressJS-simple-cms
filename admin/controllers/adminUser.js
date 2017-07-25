@@ -13,7 +13,7 @@ function authenticate (req, res){
 	let aUser = adminUser.findOne({username: user.username});
 		aUser.then(function(admUser){
 		 if(!admUser){
-		 	return res.redirect('login.ejs', {data: data})
+		 	return res.render('login.ejs', {data: data})
 		}
 		 if (!admUser.authenticate(user.password)) {
             return res.render('login.ejs', {data: data})

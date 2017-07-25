@@ -1,16 +1,16 @@
-var express = require('express');
-var fs = require('fs');
-var request = require('request');
-var cheerio = require('cheerio');
-var app     = express();
-var bodyParser = require('body-parser');
-var controller = require('./controllers');
-var multer  = require('multer');
-var router = express.Router();
-var path = require("path");
+let express = require('express');
+let fs = require('fs');
+let request = require('request');
+let cheerio = require('cheerio');
+let app     = express();
+let bodyParser = require('body-parser');
+let controller = require('./controllers');
+let multer  = require('multer');
+let router = express.Router();
+let path = require("path");
 
 
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './public/image')
     },
