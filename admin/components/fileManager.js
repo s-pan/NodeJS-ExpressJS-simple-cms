@@ -53,15 +53,10 @@ function GetImages(props){
 	    list = [],
 	    length = listImages.length,
 	    currentList = [];
-<<<<<<< HEAD
-
-	listImages.push(props.images)
-
-=======
 		
         listImages.push(props.images)
->>>>>>> 8306c0994cf117ec0bd19691657a6ab303dc9e84
-	listImages.forEach(function(image, index){
+        
+	    listImages.forEach(function(image, index){
         if(currentList.length !== 3){
 		    currentList.push(image)
 		} 
