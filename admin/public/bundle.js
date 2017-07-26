@@ -22468,11 +22468,9 @@ function fileManagerBuilder() {
   function GetImage(props) {
     let images = props.image,
         list = [];
-
     images.forEach(function (image) {
       list.push(React.createElement(GetSingleImage, { image: image }));
     });
-
     return React.createElement(
       'div',
       { className: 'row' },
@@ -22481,17 +22479,17 @@ function fileManagerBuilder() {
   }
 
   function GetImages(props) {
-    let listImages = props.images,
+    let listImages = [],
         list = [],
         length = listImages.length,
         currentList = [];
 
-    listImages.forEach(function (image, index) {
+    listImages.push(props.images);
 
+    listImages.forEach(function (image, index) {
       if (currentList.length !== 3) {
         currentList.push(image);
       }
-
       if (currentList.length == 3) {
         list.push(React.createElement(GetImage, { image: currentList }));
         currentList = [];
