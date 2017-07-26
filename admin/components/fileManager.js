@@ -49,10 +49,12 @@ function GetImage(props){
 
 
 function GetImages(props){
-	let listImages = props.images,
+	let listImages = [],
 	    list = [],
 	    length = listImages.length,
 	    currentList = [];
+
+	listImages.push(props.images)
 
 	listImages.forEach(function(image, index){
         if(currentList.length !== 3){
