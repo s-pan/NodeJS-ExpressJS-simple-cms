@@ -47,24 +47,31 @@ function GetImage(props){
 	)
 }
 
-
 function GetImages(props){
-	let listImages = [],
-	    list = [],
-	    length = listImages.length,
-	    currentList = [];
-		
-        listImages.push(props.images)
-        
-	    listImages.forEach(function(image, index){
-        if(currentList.length !== 3){
-		    currentList.push(image)
-		} 
-		if(currentList.length == 3){
-			list.push(<GetImage image ={currentList} />);
-			currentList = [];
-		}	
-    })
+	let list = [],
+	    currentList = [],
+	    length = props.images.length;
+
+	    if(length <= 3){
+	    	props.images.forEach(function(image){
+	    		currentList.push(image)
+	    	})
+	    		      	    list.push(<GetImage image ={currentList} />);
+	    
+	    }
+
+	    if(length > 3){
+	        props.images.forEach(function(image){
+	    	    if(currentList.length !== 3){
+		            currentList.push(image)
+	            } 
+		        if(currentList.length == 3){
+			        list.push(<GetImage image ={currentList} />);
+		 	        currentList = [];
+	 	        }	
+            })
+	    }
+
     return (
         <div className="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div className="modal-dialog" role="document">

@@ -22435,165 +22435,172 @@ module.exports = ReactDOMInvalidARIAHook;
 
 function fileManagerBuilder() {
 
-  function init() {
-    reqImages();
-  }
+	function init() {
+		reqImages();
+	}
 
-  function reqImages() {
-    $.ajax({
-      url: '/admin/upload'
-    }).done(function (data) {
-      rend(data);
-    });
-  }
+	function reqImages() {
+		$.ajax({
+			url: '/admin/upload'
+		}).done(function (data) {
+			rend(data);
+		});
+	}
 
-  function insertImage(url) {
-    $('#summernote').summernote('insertImage', url, function ($image) {
-      $image.css('width', $image.width() / 3);
-      $image.attr('data-filename', 'retriever');
-    });
-    $('#myModal').modal('hide');
-  }
+	function insertImage(url) {
+		$('#summernote').summernote('insertImage', url, function ($image) {
+			$image.css('width', $image.width() / 3);
+			$image.attr('data-filename', 'retriever');
+		});
+		$('#myModal').modal('hide');
+	}
 
-  function GetSingleImage(props) {
-    return React.createElement(
-      'div',
-      { className: 'col-sm-6 col-md-4' },
-      React.createElement('img', { src: props.image.src, className: 'img-responsive', onClick: function () {
-          insertImage(props.image.src);
-        } })
-    );
-  }
+	function GetSingleImage(props) {
+		return React.createElement(
+			'div',
+			{ className: 'col-sm-6 col-md-4' },
+			React.createElement('img', { src: props.image.src, className: 'img-responsive', onClick: function () {
+					insertImage(props.image.src);
+				} })
+		);
+	}
 
-  function GetImage(props) {
-    let images = props.image,
-        list = [];
-    images.forEach(function (image) {
-      list.push(React.createElement(GetSingleImage, { image: image }));
-    });
-    return React.createElement(
-      'div',
-      { className: 'row' },
-      list
-    );
-  }
+	function GetImage(props) {
+		let images = props.image,
+		    list = [];
+		images.forEach(function (image) {
+			list.push(React.createElement(GetSingleImage, { image: image }));
+		});
+		return React.createElement(
+			'div',
+			{ className: 'row' },
+			list
+		);
+	}
 
-  function GetImages(props) {
-    let listImages = [],
-        list = [],
-        length = listImages.length,
-        currentList = [];
+	function GetImages(props) {
+		let list = [],
+		    currentList = [],
+		    length = props.images.length;
 
-    listImages.push(props.images);
+		if (length <= 3) {
+			props.images.forEach(function (image) {
+				currentList.push(image);
+			});
+			list.push(React.createElement(GetImage, { image: currentList }));
+		}
 
-    listImages.forEach(function (image, index) {
-      if (currentList.length !== 3) {
-        currentList.push(image);
-      }
-      if (currentList.length == 3) {
-        list.push(React.createElement(GetImage, { image: currentList }));
-        currentList = [];
-      }
-    });
-    return React.createElement(
-      'div',
-      { className: 'modal fade', id: 'myModal', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myModalLabel' },
-      React.createElement(
-        'div',
-        { className: 'modal-dialog', role: 'document' },
-        React.createElement(
-          'div',
-          { className: 'modal-content' },
-          React.createElement(
-            'div',
-            { className: 'modal-header' },
-            React.createElement(
-              'button',
-              { type: 'button', className: 'close', 'data-dismiss': 'modal', 'aria-label': 'Close' },
-              React.createElement(
-                'span',
-                { 'aria-hidden': 'true' },
-                '\xD7'
-              )
-            ),
-            React.createElement(
-              'h4',
-              { className: 'modal-title', id: 'myModalLabel' },
-              'Image manager'
-            )
-          ),
-          React.createElement(
-            'div',
-            { className: 'modal-body' },
-            React.createElement(
-              'ul',
-              { className: 'nav nav-tabs', role: 'tablist' },
-              React.createElement(
-                'li',
-                { role: 'presentation', className: 'active' },
-                React.createElement(
-                  'a',
-                  { href: '#images', 'aria-controls': 'images', role: 'tab', 'data-toggle': 'tab' },
-                  'Images'
-                )
-              ),
-              React.createElement(
-                'li',
-                { role: 'presentation' },
-                React.createElement(
-                  'a',
-                  { href: '#upload', 'aria-controls': 'upload', role: 'tab', 'data-toggle': 'tab' },
-                  'Upload image'
-                )
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'tab-content' },
-              React.createElement(
-                'div',
-                { role: 'tabpanel', className: 'tab-pane active', id: 'images' },
-                list
-              ),
-              React.createElement(
-                'div',
-                { role: 'tabpanel', className: 'tab-pane', id: 'upload' },
-                React.createElement(
-                  'form',
-                  { id: 'my-form', action: '/admin/upload-image', target: 'form_target', method: 'post', encType: 'multipart/form-data' },
-                  React.createElement('input', { id: 'image-upload', name: 'image', type: 'file', className: 'btn' }),
-                  React.createElement('input', { type: 'submit', className: 'btn btn-primary', value: 'Save' })
-                )
-              )
-            )
-          ),
-          React.createElement(
-            'div',
-            { className: 'modal-footer' },
-            React.createElement(
-              'button',
-              { type: 'button', className: 'btn btn-default', 'data-dismiss': 'modal' },
-              'Close'
-            ),
-            React.createElement(
-              'button',
-              { type: 'button', className: 'btn btn-primary' },
-              'Save changes'
-            )
-          )
-        )
-      )
-    );
-  }
+		if (length > 3) {
+			props.images.forEach(function (image) {
+				if (currentList.length !== 3) {
+					currentList.push(image);
+				}
+				if (currentList.length == 3) {
+					list.push(React.createElement(GetImage, { image: currentList }));
+					currentList = [];
+				}
+			});
+		}
 
-  function rend(data) {
-    __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(React.createElement(GetImages, { images: data }), document.getElementById('file-manager'));
-  }
+		return React.createElement(
+			'div',
+			{ className: 'modal fade', id: 'myModal', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myModalLabel' },
+			React.createElement(
+				'div',
+				{ className: 'modal-dialog', role: 'document' },
+				React.createElement(
+					'div',
+					{ className: 'modal-content' },
+					React.createElement(
+						'div',
+						{ className: 'modal-header' },
+						React.createElement(
+							'button',
+							{ type: 'button', className: 'close', 'data-dismiss': 'modal', 'aria-label': 'Close' },
+							React.createElement(
+								'span',
+								{ 'aria-hidden': 'true' },
+								'\xD7'
+							)
+						),
+						React.createElement(
+							'h4',
+							{ className: 'modal-title', id: 'myModalLabel' },
+							'Image manager'
+						)
+					),
+					React.createElement(
+						'div',
+						{ className: 'modal-body' },
+						React.createElement(
+							'ul',
+							{ className: 'nav nav-tabs', role: 'tablist' },
+							React.createElement(
+								'li',
+								{ role: 'presentation', className: 'active' },
+								React.createElement(
+									'a',
+									{ href: '#images', 'aria-controls': 'images', role: 'tab', 'data-toggle': 'tab' },
+									'Images'
+								)
+							),
+							React.createElement(
+								'li',
+								{ role: 'presentation' },
+								React.createElement(
+									'a',
+									{ href: '#upload', 'aria-controls': 'upload', role: 'tab', 'data-toggle': 'tab' },
+									'Upload image'
+								)
+							)
+						),
+						React.createElement(
+							'div',
+							{ className: 'tab-content' },
+							React.createElement(
+								'div',
+								{ role: 'tabpanel', className: 'tab-pane active', id: 'images' },
+								list
+							),
+							React.createElement(
+								'div',
+								{ role: 'tabpanel', className: 'tab-pane', id: 'upload' },
+								React.createElement(
+									'form',
+									{ id: 'my-form', action: '/admin/upload-image', target: 'form_target', method: 'post', encType: 'multipart/form-data' },
+									React.createElement('input', { id: 'image-upload', name: 'image', type: 'file', className: 'btn' }),
+									React.createElement('input', { type: 'submit', className: 'btn btn-primary', value: 'Save' })
+								)
+							)
+						)
+					),
+					React.createElement(
+						'div',
+						{ className: 'modal-footer' },
+						React.createElement(
+							'button',
+							{ type: 'button', className: 'btn btn-default', 'data-dismiss': 'modal' },
+							'Close'
+						),
+						React.createElement(
+							'button',
+							{ type: 'button', className: 'btn btn-primary' },
+							'Save changes'
+						)
+					)
+				)
+			)
+		);
+	}
 
-  return {
-    init,
-    rend
-  };
+	function rend(data) {
+		__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(React.createElement(GetImages, { images: data }), document.getElementById('file-manager'));
+	}
+
+	return {
+		init,
+		rend
+	};
 }
 
 let fileManager = fileManagerBuilder();
