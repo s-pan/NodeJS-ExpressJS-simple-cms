@@ -54,7 +54,7 @@ function GetImages(props){
 	    length = listImages.length,
 	    currentList = [];
 		
-        listImages.push(props.images
+        listImages.push(props.images)
 	listImages.forEach(function(image, index){
         if(currentList.length !== 3){
 		    currentList.push(image)
