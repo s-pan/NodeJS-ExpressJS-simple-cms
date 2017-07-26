@@ -3,13 +3,6 @@ let recaptcha = {
 		secretKey: '6LeOsxsUAAAAAK6QuZXqSNyb6Kg6MNq-8yVacPwy'
 	}
 
-let webSettings = {
-	googleAnalyticsCode: '',
-	facebook: {
-		
-	}
-}
-
 
 module.exports = {
 	recaptcha		
