@@ -5,3 +5,4 @@ Simple CMS:
 - Google recaptcha
 - Summernote
 
+Demo admin - https://express-cms.herokuapp.com/admin
