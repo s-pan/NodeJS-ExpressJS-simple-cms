@@ -179,6 +179,7 @@ function getImages(req, res){
 
 		    let allImages = getAllImages();
 		    allImages.then(function(images){
+			    console.log(images)
 		    	res.json(images)
 		    })
 		}
