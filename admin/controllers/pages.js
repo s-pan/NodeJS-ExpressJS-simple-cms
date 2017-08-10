@@ -159,6 +159,7 @@ function getImages(req, res){
 	let imagesPath = path.resolve(__dirname, '..', '..' , '/server/public/uploads/')
 	console.log(imagesPath)
 	fs.readdir(imagesPath, 'utf8', function(err, images){
+		console.log(images)
 		if(err){
 			res.send(err)
 		} else {
@@ -179,8 +180,7 @@ function getImages(req, res){
 
 		    let allImages = getAllImages();
 		    allImages.then(function(images){
-			    console.log(images)
-		    	res.json(images)
+			 res.json(images)
 		    })
 		}
 	})
