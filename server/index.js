@@ -28,6 +28,7 @@ app.set('views', __dirname + '/views');
 let rootPath =path.join(__dirname)
 
 app.use(express.static(rootPath + '/public'))
+app.use(express.static(rootPath + '/public/uploads'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
