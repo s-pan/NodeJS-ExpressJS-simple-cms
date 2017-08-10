@@ -72,6 +72,7 @@ function GetImages(props){
 
     currentList.forEach(function(arrImages){
       	list.push(<GetImage image={arrImages} />);
+		  console.log(list)
     })
 
     return (
