@@ -5,14 +5,9 @@ import reactDOM from 'react-dom';
 
 function fileManagerBuilder() {
 
-
-function init (){
-	reqImages()
-}
-
 function reqImages(){
 	$.ajax({
-		url:'/admin/upload',
+		url:'/admin/images',
 	}).done(function(data){
 		rend(data)
 	})
@@ -37,6 +32,7 @@ function GetSingleImage(props){
 function GetImage(props){
 	let images = props.image,
 	    list = [];
+
 	images.forEach(function(image){
          list.push(<GetSingleImage image={image} />)
 	})
@@ -47,39 +43,44 @@ function GetImage(props){
 	)
 }
 
+function ModalHeader(){
+	return (
+	    <div className="modal-header">
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 className="modal-title" id="myModalLabel">Image manager</h4>
+        </div>
+	)
+}
+
+function ModalFooter(){
+	return(
+	    <div className="modal-footer">
+            <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" className="btn btn-primary">Save changes</button>
+        </div>
+	)
+}
+
 function GetImages(props){
-	let list = [],
-	    currentList = [],
-	    length = props.images.length;
+	let images = props.images || [],
+	    list = [],
+	    currentList = [];
 
-	    if(length <= 3){
-	    	props.images.forEach(function(image){
-	    		currentList.push(image)
-	    	})
-	    		      	    list.push(<GetImage image ={currentList} />);
-	    
-	    }
+	while(images.length > 0){
+	    currentList.push(images.splice(0, 3))
+	}
 
-	    if(length > 3){
-	        props.images.forEach(function(image){
-	    	    if(currentList.length !== 3){
-		            currentList.push(image)
-	            } 
-		        if(currentList.length == 3){
-			        list.push(<GetImage image ={currentList} />);
-		 	        currentList = [];
-	 	        }	
-            })
-	    }
+    currentList.forEach(function(arrImages){
+      	list.push(<GetImage image={arrImages} />);
+    })
 
     return (
+    <div className="modal-root">
+        <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onClick={reqImages}>File manager</button>
         <div className="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
-                    <div className="modal-header">
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 className="modal-title" id="myModalLabel">Image manager</h4>
-                    </div>
+                    <ModalHeader />
                     <div className="modal-body">
                         <ul className="nav nav-tabs" role="tablist">
                             <li role="presentation" className="active"><a href="#images" aria-controls="images" role="tab" data-toggle="tab">Images</a></li>
@@ -90,21 +91,20 @@ function GetImages(props){
                                     {list}                                
                                 </div>
                                 <div role="tabpanel" className="tab-pane" id="upload">
-                                    <form id="my-form" action="/admin/upload-image" target="form_target" method="post" encType="multipart/form-data">
+                                    <form id="my-form" action="/admin/images/upload" target="form_target" method="post" encType="multipart/form-data">
                                            <input id="image-upload" name="image" type="file" className="btn" />
                                            <input type="submit" className="btn btn-primary" value="Save" />
                                      </form>
                                 </div> 
                         </div>
                     </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" className="btn btn-primary">Save changes</button>
-                    </div>
+                    <ModalFooter />
                 </div>
             </div>
         </div>
+    </div>
     )
+
 }
 
 function rend(data){
@@ -115,13 +115,11 @@ function rend(data){
 }
 
 return {
-	init,
-	rend
+rend
 }
 
 }
 
 let fileManager = fileManagerBuilder()
-
 
 export default fileManager 

@@ -1,18 +1,15 @@
 let mongoose = require('mongoose')
+let encryption = require('../config/encryption')
 
 let adminUsersSchema = mongoose.Schema({
 	username: {type:String, require: true, unique: true},
-	password: {type: String, require: true}
+	password: {type: String, require: true},
+	salt: String
 })
 
 adminUsersSchema.method({
-  authenticate: function (password) {
-  //  let inputHashedPassword = encryption.generateHashedPassword(this.salt, password)
-    if (password === this.password) {
-      return true
-    } else {
-      return false
-    }
+  authenticate: function (pass) {
+   return encryption.generateHashedPassword(this.salt, pass) === this.password;
   }
 })
 

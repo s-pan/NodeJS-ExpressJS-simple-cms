@@ -9,7 +9,7 @@ let Pages = require('../../config/schema').Page;
 let slug = require('slug');
 let recaptcha = require ('../config/settings').recaptcha;
 let path = require("path");
-let multer  = require('multer');
+let multer  = require('multer'); 	
 
 /* private*/
 function createSlug(title){
@@ -19,23 +19,7 @@ function createSlug(title){
 
 /****/
 
-
-function login (req, res){
-    let data = {
-    	errorMessage: false,
-    	recaptcha: recaptcha
-    }
-	res.render('login.ejs', {data: data})
-}
-
-function getAllPgs(req, res){
-    let findPages = Page.findAllPages();
-    findPages.then(function(pages){
-         res.json(pages)
-    });
-}
-
-function createPage(req, res){
+function createPageView(req, res){
 	var categories = Page.findAllPages();
 	categories.then(function(data){
     	res.render('createPage.ejs', {categories: data})
@@ -43,53 +27,100 @@ function createPage(req, res){
 }
 
 function addPage(req, res){
+	let pageData = {title:req.body.title,
+	 	            description: req.body.description,
+                    keywords: req.body.keywords,
+                    textarea: req.body.textarea,
+                    slug: createSlug(req.body.title)
+    }
+	let findParentCategory = Page.findPage('title', req.body.category);
 
-	var slug = createSlug(req.body.title);
-
-    var createPage = Page.createNewPage({title:req.body.title,
-	 	                                 description: req.body.description,
-                                         keywords: req.body.keywords,
-                                         textarea: req.body.textarea,
-                                         category: req.body.category,
-                                         slug: slug
+    findParentCategory.then(function(category){
+        if(category !== null){
+        	pageData.category = {parent: false, id: category._id, name: category.title}
+    	    return pageData
+        } 
+        if(category === null){
+            return pageData
+        }
     })
 
-    createPage.then(function(data){
+    .then(function(data){
+    	return Page.createNewPage(data)
+    })
+
+    .then(function(data){
     	 res.redirect('/admin');
     })
 
-    createPage.catch(function(err){
-    	res.send('duplicate page title')
+    .catch(function(err){
+    	res.send('Error occurs while trying to create the page' + err)
     })
    
 }
 
-function findPage(req, res){
-	let slug = req.params.slug;
-    res.render('edit.ejs', {data: req.data})
-}
-
-function editPage(req, res){
-	let data = {title:req.body.title,
-	 	        description: req.body.description,
-                keywords: req.body.keywords,
-                textarea: req.body.textarea,
-                category: req.body.category                                         
-               }
+function editPageView(req, res){
+    let page = Page.findPage('slug', req.params.slug);
+    let allPages = Page.findAllPages({'category.parent': true});
     
-    req.data.title = data.title
-    req.data.description = data.description;
-    req.data.keywords = data.keywords
-    req.data.textarea = data.textarea
-    req.data.category = data.category
+    Promise.all([page, allPages])
 
+   .then(function(values){
+     	let data = {pageData: values[0],
+     	            categoriesData: values[1]}
+     	return data
+    })
+
+    .then(function(data){
+   	   data.pageData.parentCategory = data.pageData.category;
+  	   return data
+    })
+
+    .then(function(data){
+        res.render('edit.ejs', {data: data})
+    })
+
+}
+    
+function editPage(req, res){
+	let pageData = {title:req.body.title,
+	 	            description: req.body.description,
+                    keywords: req.body.keywords,
+                    textarea: req.body.textarea,
+                    category: {parent: false}
+    }
+
+var findParentCategory = Page.findPage('title', req.body.category);
+
+    findParentCategory.then(function(parentCategory){
+        if(parentCategory !== null){
+        	pageData.category = {parent: false, id: parentCategory._id, name: parentCategory.title}
+    	    return pageData
+        } 
+
+        if(parentCategory === null){
+        	pageData.category.parent = true;
+            return pageData
+        }
+
+
+    })
+
+    .then(function(data){
+    	req.data.title = data.title
+        req.data.description = data.description;
+        req.data.keywords = data.keywords
+        req.data.textarea = data.textarea
+        req.data.category = data.category
+        
     req.data.save(function(err){
             if(err){
               res.send(err)
             }else {
-            	res.redirect('/admin')
+           	res.redirect('/admin')
             }  
           });
+    })
 }
 
 
@@ -102,7 +133,7 @@ function deletePage(req, res){
         if(err){
             return err
         }
-        return res.render('pages.ejs', {data:data})
+        return res.redirect('/admin')
 		})
 	})
 }
@@ -125,7 +156,7 @@ function getData(req, res){
 }
 
 function getImages(req, res){
-	let imagesPath = path.resolve(__dirname, '..', 'public/upload/')
+	let imagesPath = path.resolve(__dirname, '..', '..' , 'server/public/uploads/')
 	fs.readdir(imagesPath, 'utf8', function(err, images){
 		if(err){
 			res.send(err)
@@ -134,11 +165,10 @@ function getImages(req, res){
 		    	return new Promise(function(res, rej){
 				    let html = [];
 				        images.forEach(function(image){
-			 	    	let img = encodeURIComponent(image)
-			 	    	console.log(img)
-			 	        let obj = {src: img};
-				        html.push(obj)
-		            })
+			 	    	    let img = '/' + encodeURIComponent(image)
+			 	            let obj = {src: img};
+				            html.push(obj)
+		                })
 		            if(err){
                        return rej(err)
                     }
@@ -154,10 +184,6 @@ function getImages(req, res){
 	})
 }
 
-function getDate(){
-	return new Date();
-}
-
 function uploadImage(req, res){
 	res.send('ok')  
 }
@@ -167,14 +193,12 @@ function deleteImages (req, res){
 }
 
 module.exports = {
-	createPage,
+	createPageView,
 	addPage,
-	findPage,
+	editPageView,
 	editPage,
 	deletePage,
 	getAllPages,
-	login,
-	getAllPgs,
 	getImages,
 	uploadImage
 }	

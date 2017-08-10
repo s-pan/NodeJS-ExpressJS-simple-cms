@@ -14,9 +14,10 @@ function createNewPage(data){
     })
 }
 
-function findAllPages(){
+function findAllPages(condition){
 		return new Promise(function(resolve, reject){
-      Page.find({}, function(err, data){
+      let params = condition || {};
+      Page.find(params, function(err, data){
         if(err){
             return reject(err)
         }
@@ -25,13 +26,14 @@ function findAllPages(){
     })
 		}
 
-function findPage(slug){
-  var slug = slug;
-  return new Promise(function(resolve, reject){
-    Page.findOne({slug: slug}, function(err, data){
+
+function findPage(field, value){
+var findPageObj = {[field]: value};
+return new Promise(function(resolve, reject){
+    Page.findOne(findPageObj, function(err, data){
       if(err){
         return reject(err)
-      }
+      }   
      return resolve(data)
     })
   })
@@ -84,5 +86,5 @@ module.exports = {
    findAllPages,
    findPage,
    editPage,
-   deletePage
+   deletePage,
 }

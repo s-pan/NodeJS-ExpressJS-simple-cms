@@ -1,8 +1,7 @@
-<html>
+<%- include base.ejs %>
   <head><%- include head.ejs%></head>
   <body>
   <%- include header.ejs %>
-  
   <main id="main" class="container">
     <div class="row">
       <div class='col-sm-12 col-md-12 col-lg-12'>
@@ -11,10 +10,10 @@
             <% data.forEach(function(page){ %>
               <div class="row padding-1-0">
                 <div class="col-md-6 col-lg-6">
-                  <a href=<%= 'edit/' + page.slug %>><%= page.title %></a>
+                  <a href=<%= '/admin/pages/edit/' + page.slug %>><%= page.title %></a>
                 </div>
                 <div class="col-md-6 col-lg-6">
-                  <form action=<%='/admin/delete-page/' + page.slug %> method="post" id="delete-form">
+                  <form action=<%='/admin/pages/delete/' + page.slug %> method="post" id="delete-form">
                   <input type="submit" class="btn btn-inverse" value="Delete">
                   </form>
                 </div>

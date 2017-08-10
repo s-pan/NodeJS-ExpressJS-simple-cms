@@ -3,7 +3,7 @@ let passport = require('passport'),
     adminUser = require('../config/schema').adminUsers;
 
 
-module.exports = () => {
+function passportAuth(){
   passport.use(new LocalPassport({
     usernameField: 'username',
     passwordField: 'password'
@@ -28,5 +28,9 @@ module.exports = () => {
       return done(null, user)
     })
   })
+}
+
+module.exports = {
+  passportAuth
 }
 
