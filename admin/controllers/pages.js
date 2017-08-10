@@ -157,6 +157,7 @@ function getData(req, res){
 
 function getImages(req, res){
 	let imagesPath = path.resolve(__dirname, '..', '..' , 'server/public/uploads/')
+	console.log(imagesPath)
 	fs.readdir(imagesPath, 'utf8', function(err, images){
 		if(err){
 			res.send(err)
